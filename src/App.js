@@ -1,25 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useRef } from 'react';
+import { hashString } from 'react-hash-string';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [pets, setPets] = useState([]);
+	const nameInput = useRef(null);
+	const typeInput = useRef(null);
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+
+		// Get the field values using refs
+		// Ref: https://www.designcise.com/web/tutorial/how-to-access-form-control-elements-in-the-onsubmit-event-handler-in-react
+		const enteredPet = {
+			id: hashString(nameInput?.current.value),
+			name: nameInput?.current.value,
+			type: typeInput?.current.value
+		}
+
+		// Use reducer to find any objects within the pet array that have the same ID generated from the name
+		// Ref: https://stackoverflow.com/a/53971345
+		let duplicates = pets.reduce(function(dupes, current, index) {
+			if (current.id === hashString(nameInput?.current.value)) {
+				dupes.push(index)
+			}
+			return dupes;
+		}, [])
+
+		// Update state if no duplicate was found for this pet's name
+		if(duplicates.length === 0) {
+			setPets((prevPets) => [...prevPets, enteredPet]);
+		}
+		else {
+			console.error('A pet by this name has already been entered')
+		}
+	}
+
+	return (
+		<div className="App">
+			<form onSubmit={handleSubmit}>
+				<input type="text" name="name" ref={nameInput} />
+				<input type="text" name="type" ref={typeInput} />
+				<button type="submit">Add pet</button>
+			</form>
+			<ul>
+				{pets.map((pet) => {
+					return <li key={pet.id}>{pet.name} is a {pet.type}</li>
+				})}
+
+			</ul>
+		</div>
+	);
 }
 
 export default App;
