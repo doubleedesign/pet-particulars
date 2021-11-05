@@ -1,8 +1,9 @@
-import { useState, useRef } from 'react';
+import {connect} from 'react-redux';
+import { useRef } from 'react';
 import { hashString } from 'react-hash-string';
+import { addPet } from "./data/actions";
 
-function App() {
-	const [pets, setPets] = useState([]);
+function App({pets, dispatch}) {
 	const nameInput = useRef(null);
 	const typeInput = useRef(null);
 
@@ -28,7 +29,7 @@ function App() {
 
 		// Update state if no duplicate was found for this pet's name
 		if(duplicates.length === 0) {
-			setPets((prevPets) => [...prevPets, enteredPet]);
+			dispatch(addPet(enteredPet));
 		}
 		else {
 			console.error('A pet by this name has already been entered')
@@ -36,7 +37,7 @@ function App() {
 	}
 
 	return (
-		<div className="App">
+		<>
 			<form onSubmit={handleSubmit}>
 				<input type="text" name="name" ref={nameInput} />
 				<input type="text" name="type" ref={typeInput} />
@@ -46,10 +47,15 @@ function App() {
 				{pets.map((pet) => {
 					return <li key={pet.id}>{pet.name} is a {pet.type}</li>
 				})}
-
 			</ul>
-		</div>
+		</>
 	);
 }
 
-export default App;
+const mapStateToProps = (state) => {
+	return {
+		pets: state.pets
+	}
+}
+
+export default connect(mapStateToProps)(App);

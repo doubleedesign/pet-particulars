@@ -8,7 +8,12 @@ const initialState = {
 // Reducer performs some logic on the dispatched action
 const reducer = (state = initialState, action) => {
 	switch(action.type) {
-		default: return state;
+		case 'ADD_PET': {
+			return {...state, pets: [...state.pets, action.payload.pet]}
+		}
+		default: {
+			return state;
+		}
 	}
 }
 
