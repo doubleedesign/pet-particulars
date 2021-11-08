@@ -5,7 +5,9 @@ export const PetGroup: React.FC<PropsWithChildren<{}>> = ({ children }) => {
 
 	return (
 		<PetGroupElement>
-			{children}
+			{React.Children.map(children, (child: any, index) => {
+				return <li key={child.id}>{React.cloneElement(child)}</li>
+			})}
 		</PetGroupElement>
 	)
 }

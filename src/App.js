@@ -3,6 +3,7 @@ import {ScreenClassProvider, Container, Row, Col} from "react-grid-system";
 import Header from "./components/Header/Header";
 import PetGroup from "./components/PetGroup/PetGroup";
 import AddPetForm from "./components/AddPetForm/AddPetForm";
+import PetCard from "./components/PetCard/PetCard";
 
 function App({pets}) {
 
@@ -16,7 +17,7 @@ function App({pets}) {
 							<h2>My Pets</h2>
 							<PetGroup>
 								{pets.map((pet) => {
-									return <li key={pet.id}>{pet.name} is a {pet.type}</li>
+									return <PetCard key={pet.id} data={pet}/>
 								})}
 							</PetGroup>
 						</Col>
