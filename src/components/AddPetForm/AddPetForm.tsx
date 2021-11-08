@@ -5,8 +5,8 @@ import {addPet} from "../../data/actions";
 
 // @ts-ignore
 function AddPetForm({pets, dispatch}) {
-	const nameInput = useRef<any>();
-	const typeInput = useRef<any>();
+	const nameInput = useRef<HTMLInputElement>(null);
+	const typeInput = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = (event: { preventDefault: () => void; }) => {
 		event.preventDefault();
@@ -23,7 +23,7 @@ function AddPetForm({pets, dispatch}) {
 		// Use reducer to find any objects within the pet array that have the same ID generated from the name
 		// Ref: https://stackoverflow.com/a/53971345
 		let duplicates = pets.reduce(function(dupes: any[], current: { id: number; }, index: any) {
-			if (current.id === hashString(nameInput?.current.value)) {
+			if (current.id === hashString(nameInput?.current?.value)) {
 				dupes.push(index)
 			}
 			return dupes;
