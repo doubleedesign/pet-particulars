@@ -3,7 +3,7 @@ import {hashString} from "react-hash-string";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {connect} from "react-redux";
-import {addPet} from "../../data/actions";
+import {addPet, setSavedStatus} from "../../data/actions";
 import {FormControl, FormControlLabel, FormLabel, Radio, RadioGroup} from "@mui/material";
 import {FormElement} from "./AddPetForm.style";
 
@@ -32,7 +32,7 @@ function AddPetForm({pets, dispatch}) {
 			id: hashString(nameInput?.current?.value),
 			name: nameInput?.current?.value,
 			type: typeInput?.current?.value,
-			dob: currentDob,
+			dob: currentDob?.toLocaleDateString(),
 			sex: sexChoice
 		}
 
@@ -49,6 +49,9 @@ function AddPetForm({pets, dispatch}) {
 		if(duplicates.length === 0) {
 			// Add the pet to state via redux
 			dispatch(addPet(enteredPet));
+
+			// Update the status
+			dispatch(setSavedStatus(false));
 
 			// Clear the form
 			setCurrentName('');
@@ -81,6 +84,7 @@ function AddPetForm({pets, dispatch}) {
 				            selected={currentDob}
 				            showMonthDropdown
 				            showYearDropdown
+				            dateFormat="dd/MM/yyyy"
 				            onChange={(date: any) => setCurrentDob(date)} />
 				{currentName ?
 					<FormControl component="fieldset">
