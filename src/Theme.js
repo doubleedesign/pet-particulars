@@ -2,12 +2,14 @@ export const theme = {
 	colors: {
 		primary: '#44CFCC',
 		secondary: '#b1e364',
-		tertiary: '#C5A4F0',
-		accent: '#FFBFC8',
+		secondaryDark: '#95c051',
+		tertiary: '#a085c7',
+		tertiaryDark: '#776396',
+		accent: '#dc9cb9',
 		light: '#FDECBB',
 		dark: '#263542',
 		success: '#BBE776',
-		warning: '#FFBFC8'
+		warning: '#dc9cb9'
 	},
 	fonts: {
 		headings: "'Mochiy Pop P One', sans-serif",

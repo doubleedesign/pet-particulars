@@ -13,6 +13,7 @@ export const FormElement = styled.div`
 		border: 1px solid ${theme.colors.dark};
 		background: white;
 		font-family: ${theme.fonts.body};
+		margin-bottom: ${theme.spacing.sm};
 	}
 	
 	button[type=submit] {
@@ -22,14 +23,14 @@ export const FormElement = styled.div`
         appearance: none;
 		font-family: ${theme.fonts.headings};
 		font-size: ${theme.fontSizes.md};
-		background: ${theme.colors.success};
+		background: ${theme.colors.secondary};
 		color: white;
 		padding: ${theme.spacing.md};
 		cursor: pointer;
 		transition: all 0.3s ease;
 		
 		&:hover, &:focus, &:active {
-			background: ${theme.colors.tertiary};;
+			background: ${theme.colors.secondaryDark};
 		}
 	}
 `
