@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {connect} from "react-redux";
 import {addPet} from "../../data/actions";
 import {FormControl, FormControlLabel, FormLabel, Radio, RadioGroup} from "@mui/material";
+import {FormElement} from "./AddPetForm.style";
 
 // @ts-ignore
 function AddPetForm({pets, dispatch}) {
@@ -62,32 +63,37 @@ function AddPetForm({pets, dispatch}) {
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<input type="text"
-			       name="name"
-			       placeholder="Name"
-			       ref={nameInput}
-			       onBlur={handleNameChange} />
-			<label htmlFor="type">is a</label>
-			<select id="type" name="type" ref={typeInput}>
-				<option value="dog">Dog</option>
-				<option value="cat">Cat</option>
-			</select>
-			<label htmlFor="dob">born on</label>
-			<DatePicker id="dob"
-			            selected={currentDob}
-			            showMonthDropdown
-			            showYearDropdown
-			            onChange={(date: any) => setCurrentDob(date)} />
-			<FormControl component="fieldset">
-				<FormLabel component="legend">{currentName} is a good</FormLabel>
-				<RadioGroup row onChange={handleSexChoice}>
-					<FormControlLabel value="male" control={<Radio />} label="Boy" checked={sexChoice === 'male'} />
-					<FormControlLabel value="female" control={<Radio />} label="Girl" checked={sexChoice === 'female'} />
-				</RadioGroup>
-			</FormControl>
-			<button type="submit">Add pet</button>
-		</form>
+		<FormElement>
+			<form onSubmit={handleSubmit}>
+				<input type="text"
+				       name="name"
+				       placeholder="Name"
+				       ref={nameInput}
+				       onBlur={handleNameChange} />
+				<label htmlFor="type">is a</label>
+				<select id="type" name="type" ref={typeInput}>
+					<option value="dog">Dog</option>
+					<option value="cat">Cat</option>
+				</select>
+				<label htmlFor="dob">born on</label>
+				<DatePicker id="dob"
+				            placeholderText="Birthdate"
+				            selected={currentDob}
+				            showMonthDropdown
+				            showYearDropdown
+				            onChange={(date: any) => setCurrentDob(date)} />
+				{currentName ?
+					<FormControl component="fieldset">
+						<FormLabel component="legend">{currentName} is a good</FormLabel>
+						<RadioGroup row onChange={handleSexChoice}>
+							<FormControlLabel value="male" control={<Radio />} label="Boy" checked={sexChoice === 'male'} />
+							<FormControlLabel value="female" control={<Radio />} label="Girl" checked={sexChoice === 'female'} />
+						</RadioGroup>
+					</FormControl>
+				: null }
+				<button type="submit">Add pet</button>
+			</form>
+		</FormElement>
 	)
 }
 
