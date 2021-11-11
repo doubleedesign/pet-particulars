@@ -19,6 +19,5 @@ export const HeaderElement = styled.header`
 		font-family: ${theme.fonts.headings};
 		font-size: ${theme.fontSizes.xl};
 		color: white;
-		text-align: center;
 	}
 `

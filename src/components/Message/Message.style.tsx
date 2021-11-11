@@ -13,6 +13,10 @@ export const MessageCard = styled.div`
         return theme.colors[props.type];
     }};
 	
+	svg {
+		margin-right: ${theme.spacing.xs};
+	}
+	
 	button {
 		margin-left: ${theme.spacing.md};
 		border: 0;

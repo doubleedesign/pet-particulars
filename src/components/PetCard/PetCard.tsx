@@ -1,6 +1,7 @@
 import React from 'react';
 import {PetCardElement} from "./PetCard.style";
 import {FaCat, FaDog, IoFemaleOutline, IoMaleOutline} from "react-icons/all";
+import {InnerWrapper} from "../../App.style";
 
 export interface PetProps {
 	data: {
@@ -33,10 +34,16 @@ export const PetCard: React.FC<PetProps> = function(props: {
 
 	return (
 		<PetCardElement>
-			<h3>{props.data.name}</h3>
-			{props.data.type === 'cat' ? <FaCat/> : <FaDog/>}
-			{props.data.sex === 'female' ? <IoFemaleOutline/> : <IoMaleOutline/>}
-			{props.data.dob ? <ShowAge/> : null}
+			<InnerWrapper>
+				<header>
+					<h3>{props.data.name}</h3>
+					<div>
+						{props.data.type === 'cat' ? <FaCat/> : <FaDog/>}
+						{props.data.sex === 'female' ? <IoFemaleOutline/> : <IoMaleOutline/>}
+						{props.data.dob ? <ShowAge/> : null}
+					</div>
+				</header>
+			</InnerWrapper>
 		</PetCardElement>
 	)
 }

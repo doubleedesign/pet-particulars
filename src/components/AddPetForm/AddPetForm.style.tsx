@@ -14,6 +14,13 @@ export const FormElement = styled.div`
 		background: white;
 		font-family: ${theme.fonts.body};
 		margin-bottom: ${theme.spacing.sm};
+		
+		&:focus {
+			appearance: none;
+			outline: none;
+			box-shadow: 0 0 0.4rem ${theme.colors.tertiary};
+			border-color: ${theme.colors.tertiary};
+		}
 	}
 	
 	button[type=submit] {
