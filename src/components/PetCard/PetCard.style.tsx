@@ -35,16 +35,26 @@ export const PetCardElement = styled.li`
 		h3 {
 			font-family: ${theme.fonts.headings};
 		}
+		
+		svg {
+			font-size: ${theme.fontSizes.lg};
+		}
 	}
 `
 
-export const Birthday = styled.div`
+export const InfoItem = styled.div`
+	border-bottom: 1px solid ${theme.colors.light};
+	margin-bottom: ${theme.spacing.sm};
 	
 	p {
 		margin-bottom: ${theme.spacing.sm};
 		
 		svg, strong {
 			color: ${theme.colors.tertiary};
+		}
+		
+		svg {
+			margin-right: ${theme.spacing.xs};
 		}
 		
 		strong {
@@ -58,6 +68,8 @@ export const Birthday = styled.div`
 		
 		small {
 			font-size: ${theme.fontSizes.xs};
+			display: block;
+			padding-top: ${theme.spacing.xs};
 		}
 	}
 `

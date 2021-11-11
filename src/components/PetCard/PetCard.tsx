@@ -1,9 +1,10 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import {Birthday, PetCardElement} from "./PetCard.style";
-import {FaBirthdayCake, FaCat, FaDog, IoFemaleOutline, IoMaleOutline} from "react-icons/all";
+import {InfoItem, PetCardElement} from "./PetCard.style";
+import {FaBirthdayCake, FaCat, FaDog, FaUserNurse, IoFemaleOutline, IoMaleOutline} from "react-icons/all";
 import {InnerWrapper} from "../../App.style";
-const customParseFormat = require('dayjs/plugin/customParseFormat')
+const customParseFormat = require('dayjs/plugin/customParseFormat');
+const relativeTime = require('dayjs/plugin/relativeTime');
 
 export interface PetProps {
 	data: {
@@ -11,7 +12,8 @@ export interface PetProps {
 		name: string,
 		type: string,
 		dob: string,
-		sex: string
+		sex: string,
+		lastCheckup: string
 	}
 }
 export const PetCard: React.FC<PetProps> = function(props: {
@@ -20,7 +22,8 @@ export const PetCard: React.FC<PetProps> = function(props: {
 		name: string,
 		type: string,
 		dob: string,
-		sex: string
+		sex: string,
+		lastCheckup: string
 	}
 }) {
 
@@ -34,7 +37,7 @@ export const PetCard: React.FC<PetProps> = function(props: {
 		const bornYear = dayjs(dob).format('YYYY');
 
 		return (
-			<Birthday>
+			<InfoItem>
 				<p><FaBirthdayCake/> <strong>{birthday}</strong></p>
 				<p>
 					<span>
@@ -46,7 +49,22 @@ export const PetCard: React.FC<PetProps> = function(props: {
 						&nbsp;<small>(born {bornYear})</small>
 					</span>
 				</p>
-			</Birthday>
+			</InfoItem>
+		)
+	}
+
+	const ShowCheckup = () => {
+		dayjs.extend(relativeTime);
+		const today = dayjs();
+		const checkup = dayjs(props.data.lastCheckup, 'DD/MM/YYYY');
+
+		return (
+			<InfoItem>
+				<p>
+					<span><FaUserNurse/>Last checkup: {props.data.lastCheckup}</span>
+					<small>({dayjs(checkup).from(today)})</small>
+				</p>
+			</InfoItem>
 		)
 	}
 
@@ -61,6 +79,7 @@ export const PetCard: React.FC<PetProps> = function(props: {
 					</div>
 				</header>
 				{props.data.dob ? <ShowAge/> : null}
+				{props.data.lastCheckup ? <ShowCheckup/> : null}
 			</InnerWrapper>
 		</PetCardElement>
 	)

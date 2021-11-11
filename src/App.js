@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { loadPets, setSavedStatus } from "./data/actions";
 import {getDatabase, onValue, ref, set} from "firebase/database";
@@ -12,10 +12,13 @@ import {AppWrapper, InnerWrapper} from "./App.style";
 import Footer from "./components/Footer/Footer";
 import Message from "./components/Message/Message";
 import {AiFillCheckCircle, TiWarning} from "react-icons/all";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 function App({pets, savedStatus, dispatch}) {
 	const db = getDatabase(firebaseApp);
 	const dbRef = ref(db, 'pets');
+	const [messages, setMessages] = useState([]);
 
 	// Function to get saved pets from firebase,
 	// waiting until it returns a defined value before trying to load it into the redux store
@@ -38,10 +41,16 @@ function App({pets, savedStatus, dispatch}) {
 	useEffect(() => {
 		getPets()
 			.then(response => {
-				dispatch(loadPets(response));
+				if(response.length > 0) {
+					dispatch(loadPets(response));
+				}
+				else {
+					dispatch(loadPets([]));
+				}
 			})
 			.catch(error => {
 				console.error(error);
+				dispatch(loadPets([]));
 			})
 	}, []);
 
@@ -56,6 +65,30 @@ function App({pets, savedStatus, dispatch}) {
 			});
 	};
 
+	useEffect(() => {
+		if(pets.length > 0) {
+			dayjs.extend(relativeTime);
+			const today = dayjs();
+			let newMessages = [];
+
+			pets.map((pet) => {
+				const checkup = dayjs(pet.lastCheckup, 'DD/MM/YYYY');
+				const diff = today.diff(checkup, 'month');
+
+				if(diff === 12) {
+					newMessages.push(`${pet.name}'s checkup is due this month`);
+				}
+				else if(diff > 12) {
+					newMessages.push(`${pet.name} is overdue for their checkup`);
+				}
+
+				//setMessages(messages => [...messages, newMessages]);
+				setMessages(newMessages);
+			})
+		}
+	}, [pets]);
+
+
 	return (
 		<AppWrapper>
 			<ScreenClassProvider>
@@ -66,22 +99,35 @@ function App({pets, savedStatus, dispatch}) {
 							<Col sm={12} lg={8}>
 								<InnerWrapper>
 									<h2>My Pets</h2>
+									{messages ?
+										messages.map((message) => {
+											return (
+												<Message type="warning" key={message}>
+													<p><TiWarning/> {message}</p>
+												</Message>
+											)
+										})
+									: null }
 									<PetGroup>
-										{pets.map((pet) => {
+										{pets ? pets.map((pet) => {
 											return <PetCard key={pet.id} data={pet}/>
-										})}
+										}) : null}
 									</PetGroup>
 									{savedStatus
 										?
 										<Message type="success">
-											<AiFillCheckCircle/>
-											<p>Up-to-date</p>
+											<span>
+												<AiFillCheckCircle/>
+												<p>Up-to-date</p>
+											</span>
 											<button disabled>Save pets</button>
 										</Message>
 										:
 										<Message type="warning">
-											<TiWarning/>
-											<p>You have unsaved changes</p>
+											<span>
+												<TiWarning/>
+												<p>You have unsaved changes</p>
+											</span>
 											<button onClick={savePets}>Save pets</button>
 										</Message>
 									}

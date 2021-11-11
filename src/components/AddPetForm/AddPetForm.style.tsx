@@ -3,6 +3,10 @@ import {theme} from "../../Theme";
 
 export const FormElement = styled.div`
 	
+	label {
+		display: block;
+	}
+	
 	input[type=text],
 	select {
 		width: 100%;

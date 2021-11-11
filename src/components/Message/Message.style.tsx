@@ -5,7 +5,7 @@ export const MessageCard = styled.div`
     width: 100%;
     display: flex;
     flex-wrap: nowrap;
-    justify-content: flex-end;
+    justify-content: space-between;
 	align-items: center;
     font-weight: ${theme.fontWeights.bold};
 	color: ${(props: { type:string }) => {
@@ -15,6 +15,17 @@ export const MessageCard = styled.div`
 	
 	svg {
 		margin-right: ${theme.spacing.xs};
+	}
+	
+	p, span {
+		display: flex;
+		align-items: center;
+	}
+	
+	span {
+		display: flex;
+		margin-left: auto;
+		align-items: center;
 	}
 	
 	button {

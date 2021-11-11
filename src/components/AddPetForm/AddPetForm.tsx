@@ -14,6 +14,7 @@ function AddPetForm({pets, dispatch}) {
 	const [sexChoice, setSexChoice] = useState<string|null>(null);
 	const [currentName, setCurrentName] = useState<string>('');
 	const [currentDob, setCurrentDob] = useState<Date|null>();
+	const [lastCheckupDate, setLastCheckupDate] = useState<Date|null>();
 
 	const handleNameChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
 		setCurrentName(event.target.value);
@@ -33,17 +34,21 @@ function AddPetForm({pets, dispatch}) {
 			name: nameInput?.current?.value,
 			type: typeInput?.current?.value,
 			dob: currentDob?.toLocaleDateString(),
-			sex: sexChoice
+			sex: sexChoice,
+			lastCheckup: lastCheckupDate?.toLocaleDateString()
 		}
 
 		// Use reducer to find any objects within the pet array that have the same ID generated from the name
 		// Ref: https://stackoverflow.com/a/53971345
-		let duplicates = pets.reduce(function(dupes: any[], current: { id: number; }, index: any) {
-			if (current.id === hashString(nameInput?.current?.value)) {
-				dupes.push(index)
-			}
-			return dupes;
-		}, [])
+		let duplicates = [];
+		if(pets) {
+			duplicates = pets.reduce(function (dupes: any[], current: { id: number; }, index: any) {
+				if (current.id === hashString(nameInput?.current?.value)) {
+					dupes.push(index)
+				}
+				return dupes;
+			}, [])
+		}
 
 		// If no duplicate was found for this pet name:
 		if(duplicates.length === 0) {
@@ -57,6 +62,7 @@ function AddPetForm({pets, dispatch}) {
 			setCurrentName('');
 			setCurrentDob(null);
 			setSexChoice(null);
+			setLastCheckupDate(null);
 			// @ts-ignore
 			nameInput.current.value = '';
 		}
@@ -95,6 +101,15 @@ function AddPetForm({pets, dispatch}) {
 						</RadioGroup>
 					</FormControl>
 				: null }
+				<label htmlFor="checkup">{currentName ? `${currentName}'s` : null} last checkup date</label>
+				<DatePicker id="checkup"
+				            placeholderText="Last checkup"
+				            selected={lastCheckupDate}
+				            showMonthDropdown
+				            showYearDropdown
+				            dateFormat="dd/MM/yyyy"
+				            onChange={(date: any) => setLastCheckupDate(date)} />
+
 				<button type="submit">Add pet</button>
 			</form>
 		</FormElement>
