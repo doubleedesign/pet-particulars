@@ -28,9 +28,36 @@ export const PetCardElement = styled.li`
 		justify-content: space-between;
 		flex-wrap: nowrap;
 		width: 100%;
+		padding-bottom: ${theme.spacing.sm};
+		border-bottom: 1px solid ${theme.colors.light};
+		margin-bottom: ${theme.spacing.md};
 		
 		h3 {
 			font-family: ${theme.fonts.headings};
+		}
+	}
+`
+
+export const Birthday = styled.div`
+	
+	p {
+		margin-bottom: ${theme.spacing.sm};
+		
+		svg, strong {
+			color: ${theme.colors.tertiary};
+		}
+		
+		strong {
+			font-weight: ${theme.fontWeights.bold};
+		}
+		
+		span {
+			display: block;
+            font-size: ${theme.fontSizes.sm};
+		}
+		
+		small {
+			font-size: ${theme.fontSizes.xs};
 		}
 	}
 `

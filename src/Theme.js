@@ -6,7 +6,7 @@ export const theme = {
 		tertiary: '#a085c7',
 		tertiaryDark: '#776396',
 		accent: '#dc9cb9',
-		light: '#FDECBB',
+		light: '#DDD',
 		dark: '#263542',
 		success: '#BBE776',
 		warning: '#dc9cb9'
