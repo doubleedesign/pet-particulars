@@ -17,7 +17,9 @@ function App({pets, savedStatus, dispatch}) {
 	const db = getDatabase(firebaseApp);
 	const dbRef = ref(db, 'pets');
 
-	// Function to get saved pets from firebase
+	// Function to get saved pets from firebase,
+	// waiting until it returns a defined value before trying to load it into the redux store
+	// Ref: https://bigcodenerd.org/realtime-database-firebase-promises-api/
 	const getPets = () => {
 		return new Promise((resolve, reject) => {
 			const onError = (error) => {
