@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import {addPet, setSavedStatus} from "../../data/actions";
 import {FormControl, FormControlLabel, FormLabel, Radio, RadioGroup} from "@mui/material";
 import {FormElement} from "./AddPetForm.style";
+import axios from "axios";
 
 // @ts-ignore
 function AddPetForm({pets, dispatch}) {
@@ -69,6 +70,25 @@ function AddPetForm({pets, dispatch}) {
 		else {
 			console.error('A pet by this name has already been entered')
 		}
+	}
+
+	const DogDropdown = () => {
+		const query = `https://api.thedogapi.com/v1/breeds?api_key=ca00e8dc-015d-4d73-bbee-f616c6df7e14`;
+		axios.get(query)
+			.then(response => {
+				console.log(response);
+			}).catch(error => {
+				console.error(error);
+			})
+
+		return (
+			<>
+				<label htmlFor="breed">Breed</label>
+				<select id="breed" name="breed">
+
+				</select>
+			</>
+		)
 	}
 
 	return (
